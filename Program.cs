@@ -1,29 +1,36 @@
-﻿using System;
-
+using System;
 namespace OrdreDailyStandup
 {
     class Program
     {
         static void Main(string[] args)
         {
-            string[] nomsPersonnes = new string[9] { "Corentin", "Anatolie", "Elisa", "Laure", "Kevin", "Elif", "Iurii", "Jean", "Laurent" }; 
-
-            string personneStockee;
-
-            Random aleatoire = new Random();
-            int personneAleatoire;
-
-            int nbPersonne = nomsPersonnes.Length;
-            
-            for (int i = 0; i < nbPersonne; i++) {
-                personneStockee = nomsPersonnes[i]; // On stocke la peronne d'indice i 
-                personneAleatoire = aleatoire.Next(i, nbPersonne); // Génère un entier compris entre i et le nombre total d'élement du tableau 
-                nomsPersonnes[i]= nomsPersonnes [personneAleatoire]; // On affecte la place de la personne d'indice i à la personne dont l'indice a été pioché par notre programme de nb aléatoire
-                nomsPersonnes[personneAleatoire]= personneStockee; // On affecte la place de cette persionne piochée à la personne stocké au début
-
-                Console.WriteLine(nomsPersonnes [i]);
+            // Constituer le tableau des étudiants à partir d'un fichier texte.
+            // Chaque nom d'étudiant par ligne
+            // Factoriser la récupération des étudiants
+            string[] studentsNames = new string[9] { "Corentin", "Anatolie", "Elisa", "Laure", "Kevin", "Elif", "Iurii", "Jean", "Laurent" }; 
+            string shuffledStudent;
+            Random randomGenerator = new Random();
+            int chosenStudent;
+            int studentsNumber = studentsNames.Length;
+            // Factorise la boucle de l'algorithme dans une fonction
+            /* Implementation of the classic Fisher-Yates
+               to shuffle the students
+             */
+            for (int i = 0; i < studentsNumber; i++)
+            {
+                shuffledStudent = studentsNames[i];
+                chosenStudent = randomGenerator.Next(i, nbPersonne);
+                studentsNames[i] = studentsNames[chosenStudent];
+                studentsNames[chosenStudent] = shuffledStudent;
             }
-       
+            // Factoriser la restitution des informations à l'écran dans une fonction
+            foreach(String name in studentsNames)
+            {
+                Console.WriteLine("Au tour de " + name + " de parler");
+                Console.WriteLine("Appuyez sur une touche pour continuer ...");
+                Console.ReadKey();
+            }
         }
     }
 }
