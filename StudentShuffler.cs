@@ -61,7 +61,28 @@ namespace Student_Shuffle
             return _studentsName;
         }
 
+        public List<List<string>> GetGroups(int numberOfGroup)
+        {
 
+            int numberOfElementByGroup = _studentsName.Count / numberOfGroup;
+
+            List<List<string>> resultGroup = new List<List<string>>();
+            List<string> tempGroup;
+
+            for (int i = 0; i < numberOfGroup - 1; i++)
+            {
+                tempGroup = _studentsName.GetRange(i * numberOfElementByGroup, numberOfElementByGroup);
+                resultGroup.Add(tempGroup);
+            }
+
+            int lastGroupStartIndex = numberOfElementByGroup * (numberOfGroup - 1);
+            int lastGroupNumberOfStudents = _studentsName.Count - numberOfElementByGroup * (numberOfGroup - 1);
+            tempGroup = _studentsName.GetRange(lastGroupStartIndex, lastGroupNumberOfStudents);
+            resultGroup.Add(tempGroup);
+
+
+            return resultGroup;
+        }
 
 
     }

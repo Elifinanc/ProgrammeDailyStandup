@@ -7,28 +7,6 @@ namespace Student_Shuffle
 {
     class IO
     {
-        public static List<List<string>> GetGroups(List<string> studentsGroup,int numberOfGroup)
-        { 
-            
-            int numberOfElementByGroup = studentsGroup.Count / numberOfGroup;
-
-            List<List<string>> resultGroup = new List<List<string>>();
-            List<string> tempGroup;
-
-            for (int i = 0; i < numberOfGroup - 1; i++)
-            {
-                tempGroup = studentsGroup.GetRange(i * numberOfElementByGroup, numberOfElementByGroup);
-                resultGroup.Add(tempGroup);
-            }
-
-            int lastGroupStartIndex = numberOfElementByGroup * (numberOfGroup - 1);
-            int lastGroupNumberOfStudents = studentsGroup.Count - numberOfElementByGroup * (numberOfGroup - 1);
-            tempGroup = studentsGroup.GetRange(lastGroupStartIndex, lastGroupNumberOfStudents);
-            resultGroup.Add(tempGroup);
-
-
-            return resultGroup;
-        }
 
         public static void DisplayNames(List<string> studentsName)
         {
@@ -50,10 +28,10 @@ namespace Student_Shuffle
                 List<string> currentStudentsGroup = studentsGroups[i];
                 foreach (string students in currentStudentsGroup)
                 {
-                    Console.WriteLine("     {0}", students);
+                    Console.WriteLine("\t{0}", students);
                 }
                 Console.WriteLine();
-                Console.WriteLine();
+                
 
             }
 
