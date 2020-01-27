@@ -8,19 +8,17 @@ namespace Student_Shuffle
     class StudentShuffler
     {
         private string _fichier;
-        private string[] _studentsName;
+        private List<string> _studentsName;
         public StudentShuffler(string fichier)
         {
             _fichier = fichier;
         }
 
-        public string[] GetStudents()
+        public List<string> GetStudents()
         {
             ReadTextFile();
             RandomiseName();
-
             return _studentsName;
-            
         }
 
 
@@ -37,10 +35,10 @@ namespace Student_Shuffle
                 studentNames.Add(line);
             }
 
-            _studentsName = studentNames.ToArray();
+            _studentsName = studentNames;
         }
 
-        public string[] RandomiseName()
+        public List<string> RandomiseName()
         {
             // Factorise la boucle de l'algorithme dans une fonction
             /* Implementation of the classic Fisher-Yates
@@ -50,7 +48,7 @@ namespace Student_Shuffle
             string shuffledStudent;
             Random randomGenerator = new Random();
             int chosenStudent;
-            int studentsNumber = _studentsName.Length;
+            int studentsNumber = _studentsName.Count;             ;
 
             for (int i = 0; i < studentsNumber; i++)
             {
