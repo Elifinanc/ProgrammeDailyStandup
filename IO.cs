@@ -24,7 +24,7 @@ namespace Student_Shuffle
         {
             for(int i = 0; i < studentsGroups.Count; i++)
             {
-                Console.WriteLine("Group {0} ", i);
+                Console.WriteLine("Group {0} ", i + 1);
                 List<string> currentStudentsGroup = studentsGroups[i];
                 foreach (string students in currentStudentsGroup)
                 {

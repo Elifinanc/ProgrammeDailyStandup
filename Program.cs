@@ -33,7 +33,7 @@ namespace Student_Shuffle
 
             if(options.Group)
             {
-                List<List<string>> studentsGroups = studentShuffler.GetGroups(2);
+                List<List<string>> studentsGroups = studentShuffler.GetGroups(5);
                 IO.DisplayGroups(studentsGroups);
             }
             else

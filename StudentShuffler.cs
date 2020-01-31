@@ -64,24 +64,39 @@ namespace Student_Shuffle
         public List<List<string>> GetGroups(int numberOfGroup)
         {
 
-            int numberOfElementByGroup = _studentsName.Count / numberOfGroup;
-
+            int[] SizeOfEachGroup = GetSizeOfEachGroup(_studentsName.Count, numberOfGroup);
+           
             List<List<string>> resultGroup = new List<List<string>>();
-            List<string> tempGroup;
-
-            for (int i = 0; i < numberOfGroup - 1; i++)
+            List<string> currentGroup;
+            int elementToSkip = 0;
+            for (int i = 0; i < numberOfGroup; i++)
             {
-                tempGroup = _studentsName.GetRange(i * numberOfElementByGroup, numberOfElementByGroup);
-                resultGroup.Add(tempGroup);
+                currentGroup = _studentsName.GetRange(elementToSkip, SizeOfEachGroup[i]);
+                resultGroup.Add(currentGroup);
+                elementToSkip = elementToSkip + SizeOfEachGroup[i];
             }
 
-            int lastGroupStartIndex = numberOfElementByGroup * (numberOfGroup - 1);
-            int lastGroupNumberOfStudents = _studentsName.Count - numberOfElementByGroup * (numberOfGroup - 1);
-            tempGroup = _studentsName.GetRange(lastGroupStartIndex, lastGroupNumberOfStudents);
-            resultGroup.Add(tempGroup);
-
-
             return resultGroup;
+        }
+
+        public int[] GetSizeOfEachGroup(int studentNumber, int groupNumber)
+        {
+            int[] sizeOfGroup = new int[groupNumber];
+            int minMemberNumber = studentNumber / groupNumber;
+            int restMemberCount = studentNumber % groupNumber;
+            for (int i = 0; i < groupNumber; i++)
+            {
+                if(i < restMemberCount )
+                {
+                    sizeOfGroup[i] = minMemberNumber + 1;
+                }
+                else
+                {
+                    sizeOfGroup[i] = minMemberNumber;
+                }
+            }
+
+            return sizeOfGroup;
         }
 
 
