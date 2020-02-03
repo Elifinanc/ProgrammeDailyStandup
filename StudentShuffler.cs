@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Linq;
 
 namespace Student_Shuffle
 {
@@ -20,8 +21,6 @@ namespace Student_Shuffle
             RandomiseName();
             return _studentsName;
         }
-
-
 
         public void ReadTextFile()
         {
@@ -61,44 +60,27 @@ namespace Student_Shuffle
             return _studentsName;
         }
 
-        public List<List<string>> GetGroups(int numberOfGroup)
+        public List<List<string>> GetRandomizedGroups(int numberOfGroup)
         {
-
-            int[] SizeOfEachGroup = GetSizeOfEachGroup(_studentsName.Count, numberOfGroup);
-           
-            List<List<string>> resultGroup = new List<List<string>>();
-            List<string> currentGroup;
-            int elementToSkip = 0;
-            for (int i = 0; i < numberOfGroup; i++)
+            List<List<string>> groups = new List<List<string>>();
+            int studentsRemainder;
+            int studentsPerGroupCount = Math.DivRem(_studentsName.Count, numberOfGroup, out studentsRemainder);
+            string[] tail = new string[_studentsName.Count];
+            _studentsName.CopyTo(tail);
+            // Split the initial group in a given number of groups
+            for (int i=0; i < numberOfGroup; i++)
             {
-                currentGroup = _studentsName.GetRange(elementToSkip, SizeOfEachGroup[i]);
-                resultGroup.Add(currentGroup);
-                elementToSkip = elementToSkip + SizeOfEachGroup[i];
+                List<string> shuffledGroup = tail.Take(studentsPerGroupCount).ToList();
+                groups.Add(shuffledGroup);
+                tail = tail.Skip(studentsPerGroupCount).ToArray();
             }
-
-            return resultGroup;
-        }
-
-        public int[] GetSizeOfEachGroup(int studentNumber, int groupNumber)
-        {
-            int[] sizeOfGroup = new int[groupNumber];
-            int minMemberNumber = studentNumber / groupNumber;
-            int restMemberCount = studentNumber % groupNumber;
-            for (int i = 0; i < groupNumber; i++)
+            // If there are students remaining, put each of them in a group until there is no more
+            for (int i=0; i < studentsRemainder; i++)
             {
-                if(i < restMemberCount )
-                {
-                    sizeOfGroup[i] = minMemberNumber + 1;
-                }
-                else
-                {
-                    sizeOfGroup[i] = minMemberNumber;
-                }
+                List<string> groupWithOneRemainder = groups[i];
+                groupWithOneRemainder.Add(tail[i]);
             }
-
-            return sizeOfGroup;
+            return groups;
         }
-
-
     }
 }
