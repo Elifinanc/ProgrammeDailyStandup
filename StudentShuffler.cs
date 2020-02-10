@@ -6,9 +6,15 @@ using System.Linq;
 
 namespace Student_Shuffle
 {
+    // Violation du SRP: Il y a deux raisons de modifier la classe
+    //                       * Si je veux changer la manière dont le fichier des étudiants est parsé
+    //                       * Si je veux changer les algorithmes de randomisation
     class StudentShuffler
     {
+        // Si on sépare la lecture du fichier de la randomisation, plus besoin de cet attribut.
         private string _fichier;
+        // Effet de bord: On risque un effet de bord dès lors que _studentsName est modifiée
+        //                il faudrait se débarrasser de cette variable ou la rendre private readonly.
         private List<string> _studentsName;
         public StudentShuffler(string fichier)
         {
@@ -22,6 +28,8 @@ namespace Student_Shuffle
             return _studentsName;
         }
 
+        // Violation du DIP: StudentShuffler connaît les détails d'implémentation de la lecture d'un fichier
+        // Violation de l'OCP: Si je veux ajouter un format de fichier ou un nouvel algorithme de parsing, je dois modifier cette méthode
         public void ReadTextFile()
         {
             using var fs = new FileStream(_fichier, FileMode.Open, FileAccess.Read);
