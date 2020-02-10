@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Student_Shuffle", "Student_Shuffle.csproj", "{5547CF9A-35BE-4E8E-8BB8-63A102D50FBA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{85B3C4C3-A32F-47F8-85E9-A4B96BB1267C}"
+	ProjectSection(SolutionItems) = preProject
+		FlatFileReader.cs = FlatFileReader.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
