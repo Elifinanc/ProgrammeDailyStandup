@@ -31,9 +31,11 @@ namespace Student_Shuffle
         static void RunOptions(Options options)
         {
             string path = options.Filepath;
+            IReadable reader = new FlatFileReader(path);
+
             // DIP: En appliquant le principe d'inversion de dépendances, on pourrait facilement
             //      changer d'algorithme de répartition des groupes et utiliser d'autres Shuffler
-            StudentShuffler studentShuffler = new StudentShuffler(path);
+            StudentShuffler studentShuffler = new StudentShuffler(reader);
             List<string> studentsListRandomized = studentShuffler.GetStudents();
 
             if(options.Group)
