@@ -26,28 +26,27 @@ namespace Student_Shuffle
 
             [Option('n', "count", SetName = "group", HelpText = "Number of groups", Default = 2)]
             public int GroupsNumber { get; set; }
+
+            [Option('c', "config", HelpText = "XML config path", Default = "StudentShuffler.xml")]
+            public string ConfigPath { get; set; }
         }
 
         static void RunOptions(Options options)
         {
-            string path = options.Filepath;
-            IReadable reader = new FlatFileReader(path);
+            Config config = new Config(options.ConfigPath);
 
-            // DIP: En appliquant le principe d'inversion de dépendances, on pourrait facilement
-            //      changer d'algorithme de répartition des groupes et utiliser d'autres Shuffler
-            StudentShuffler studentShuffler = new StudentShuffler(reader);
+            StudentShuffler studentShuffler = new StudentShuffler(config);
             List<string> studentsListRandomized = studentShuffler.GetStudents();
 
             if(options.Group)
             {
-                List<List<string>> studentsGroups = studentShuffler.GetRandomizedGroups(options.GroupsNumber);
+                List<List<string>> studentsGroups = studentShuffler.GetRandomizedGroups();
                 IO.DisplayGroups(studentsGroups);
             }
             else
             {
                 IO.DisplayNames(studentsListRandomized);
             }
-            
         }
     }
 }
