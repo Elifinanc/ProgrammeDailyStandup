@@ -6,23 +6,23 @@ namespace Student_Shuffle
 {
     class StudentShuffler
     {
-        private IReadable Readable { get; set; }
+        private Config _config;
 
-        public StudentShuffler(IReadable readable)
+        public StudentShuffler(Config config)
         {
-            Readable = readable;
+            _config = config;
         }
 
-        public List<List<string>> GetRandomizedGroups(int numberOfGroup)
+        public List<List<string>> GetRandomizedGroups()
         {
             List<String> students = GetStudents();
             List<List<string>> groups = new List<List<string>>();
             int studentsRemainder;
-            int studentsPerGroupCount = Math.DivRem(students.Count, numberOfGroup, out studentsRemainder);
+            int studentsPerGroupCount = Math.DivRem(students.Count, _config.GroupsNumber, out studentsRemainder);
             string[] tail = new string[students.Count];
             students.CopyTo(tail);
             // Split the initial group in a given number of groups
-            for (int i = 0; i < numberOfGroup; i++)
+            for (int i = 0; i < _config.GroupsNumber; i++)
             {
                 List<string> shuffledGroup = tail.Take(studentsPerGroupCount).ToList();
                 groups.Add(shuffledGroup);
@@ -39,7 +39,7 @@ namespace Student_Shuffle
 
         public List<string> GetStudents()
         {
-            IEnumerable<String> students = Readable.ExtractFileLines();
+            IEnumerable<String> students = _config.Students;
             Random randomGenerator = new Random();
             int chosenStudentIndex;
             int studentsNumber = students.Count();
