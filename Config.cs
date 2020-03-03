@@ -7,30 +7,32 @@ namespace Student_Shuffle
 {
     public class Config
     {
-        private XmlReader _reader;
         public IEnumerable<String> Students { get; set; }
         public int GroupsNumber { get; set; }
 
-        public Config(string filePath)
+        public static Config CreateFromXML(string filepath)
         {
-            _reader = XmlReader.Create(filePath);
-            while (_reader.Read())
+            XmlReader reader = XmlReader.Create(filepath);
+            Config newConfig = new Config();
+
+            while (reader.Read())
             {
-                if (_reader.NodeType == XmlNodeType.Element)
+                if (reader.NodeType == XmlNodeType.Element)
                 {
-                    if(_reader.Name == "groupNumber")
+                    if(reader.Name == "groupNumber")
                     {
-                        _reader.Read();
-                        GroupsNumber = Convert.ToInt32(_reader.Value);
+                        reader.Read();
+                        newConfig.GroupsNumber = Convert.ToInt32(reader.Value);
                     }
-                    else if (_reader.Name == "file")
+                    else if (reader.Name == "file")
                     {
-                        _reader.Read();
-                        FlatFileReader fileReader = new FlatFileReader(_reader.Value);
-                        Students = fileReader.ExtractFileLines();
+                        reader.Read();
+                        FlatFileReader fileReader = new FlatFileReader(reader.Value);
+                        newConfig.Students = fileReader.ExtractFileLines();
                     }
                 }
-            }   
+            }
+            return newConfig;
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace Student_Shuffle
 {
     class Program
-    {   
+    {
         static void Main(string[] args)
         {
             CommandLine.Parser.Default.ParseArguments<Options>(args)
@@ -18,13 +18,13 @@ namespace Student_Shuffle
 
         class Options
         {
-            [Option('f', "filepath", HelpText = "Provide a filepath")]
+            [Option('f', "filepath", HelpText = "Provide a filepath", Default = null)]
             public string Filepath { get; set; }
 
             [Option('g', "group", SetName = "group", HelpText = "Create two groups of students")]
             public bool Group { get; set; }
 
-            [Option('n', "count", SetName = "group", HelpText = "Number of groups", Default = 2)]
+            [Option('n', "count", SetName = "group", HelpText = "Number of groups", Default = 0)]
             public int GroupsNumber { get; set; }
 
             [Option('c', "config", HelpText = "XML config path", Default = "StudentShuffler.xml")]
@@ -33,8 +33,9 @@ namespace Student_Shuffle
 
         static void RunOptions(Options options)
         {
-            Config config = new Config(options.ConfigPath);
-
+            Config config = Config.CreateFromXML(options.ConfigPath);
+            OverrideConfigFromCommandLineOptions(config, options);
+           
             StudentShuffler studentShuffler = new StudentShuffler(config);
             List<string> studentsListRandomized = studentShuffler.GetStudents();
 
@@ -46,6 +47,20 @@ namespace Student_Shuffle
             else
             {
                 IO.DisplayNames(studentsListRandomized);
+            }
+        }
+
+        static void OverrideConfigFromCommandLineOptions(Config config, Options options)
+        {
+            if (options.Filepath != null)
+            {
+                FlatFileReader fileReader = new FlatFileReader(options.Filepath);
+                config.Students = fileReader.ExtractFileLines();
+            }
+
+            if (options.GroupsNumber != 0)
+            {
+                config.GroupsNumber = options.GroupsNumber;
             }
         }
     }
