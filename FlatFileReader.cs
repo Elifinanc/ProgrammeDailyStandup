@@ -5,18 +5,11 @@ using System.Collections.Generic;
 
 namespace Student_Shuffle
 {
-    public class FlatFileReader : IReadable
+    public static class FlatFileReader
     {
-        public string Filepath { get; private set; }
-
-        public FlatFileReader(String filepath)
+        public static IEnumerable<String> ExtractFileLines(string filepath)
         {
-            Filepath = filepath;
-        }
-
-        public IEnumerable<String> ExtractFileLines()
-        {
-            using var fileStream = new FileStream(Filepath, FileMode.Open, FileAccess.Read);
+            using var fileStream = new FileStream(filepath, FileMode.Open, FileAccess.Read);
             using var streamReader = new StreamReader(fileStream, Encoding.UTF8);
             List<string> names = new List<string>();
             
