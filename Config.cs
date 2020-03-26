@@ -3,29 +3,28 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using CommandLine;
+using System.Xml.Linq;
+using System.IO;
+using System.Linq;
 
 namespace Student_Shuffle
 {
     public class Config
     {
-        public IEnumerable<String> Students { get; set; }
+        public IEnumerable<Student> Students { get; set; }
         public int GroupsNumber { get; set; }
-
+       
         public static Config Create(Options options)
         {
-            int groupsNumber = 0;
-            String filepath = String.Empty;
-            if (options.Filepath == null)
-            {
-                filepath = Config.LoadElement("file", options.ConfigPath);
-            }
-            else
-            {
-                filepath = options.Filepath;
-            }
+            int groupsNumber;
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var studentsFilepath = Path.Combine(currentDirectory, options.ConfigPath);
+            XElement studentGetter = XElement.Load(studentsFilepath);
+            
             if (options.GroupsNumber == 0)
             {
-                groupsNumber = Convert.ToInt32(Config.LoadElement("groupNumber", options.ConfigPath));
+                groupsNumber = 
+                    Convert.ToInt32(studentGetter.Descendants("groupNumber").Select(x => x.Value).First());
             }
             else
             {
@@ -33,34 +32,14 @@ namespace Student_Shuffle
             }
             Config config = new Config();
             config.GroupsNumber = groupsNumber;
-            config.Students = FlatFileReader.ExtractFileLines(filepath);
+            config.Students = studentGetter.Descendants("Student").Select(x => new Student { FirstName = (string)x.Attribute("FirstName"), 
+                LastName = (string)x.Attribute("LastName"), Quote = (string)x.Attribute("Quote")
+            });
 
             return config;
         }
 
-        public static string LoadElement(string elementName, string filepath)
-        {
-            XmlReader reader = XmlReader.Create(filepath);
-            
-            string content = null;
 
-            while (reader.Read())
-            {
-                if (reader.NodeType == XmlNodeType.Element)
-                {
-                    if (reader.Name == elementName)
-                    {
-                        reader.Read();
-                        content = (reader.Value);
-                    }
-                }
-            }
-            if (content == null)
-            {
-                throw new Exception($"Invalid element {elementName}");
-            }
-            return content;
-        }
 
     }
 }

@@ -10,9 +10,6 @@ namespace Student_Shuffle
 {
     public class Options
     {
-        [Option('f', "filepath", HelpText = "Provide a filepath", Default = null)]
-        public string Filepath { get; set; }
-
         [Option('g', "group", SetName = "group", HelpText = "Create two groups of students")]
         public bool Group { get; set; }
 
@@ -36,16 +33,16 @@ namespace Student_Shuffle
             Config config = Config.Create(options);
             
             StudentShuffler studentShuffler = new StudentShuffler(config);
-            List<string> studentsListRandomized = studentShuffler.GetStudents();
+            List<Student> studentsListRandomized = studentShuffler.GetStudents();
 
             if(options.Group)
             {
-                List<List<string>> studentsGroups = studentShuffler.GetRandomizedGroups();
-                IO.DisplayGroups(studentsGroups);
+                List<List<Student>> studentsGroups = studentShuffler.GetRandomizedGroups();
+                IO.DisplayGroups(studentsGroupsFirstNames);
             }
             else
             {
-                IO.DisplayNames(studentsListRandomized);
+                IO.DisplayNames(studentsListRandomizedFirstNames);
             }
         }
 
