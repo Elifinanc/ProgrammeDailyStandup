@@ -13,42 +13,41 @@ namespace Student_Shuffle
             _config = config;
         }
 
-        public List<List<string>> GetRandomizedGroups()
+        public List<List<Student>> GetRandomizedGroups()
         {
-            List<String> students = GetStudents();
-            List<List<string>> groups = new List<List<string>>();
+            List<Student> students = GetStudents();
+            List<List<Student>> groups = new List<List<Student>>();
             int studentsRemainder;
             int studentsPerGroupCount = Math.DivRem(students.Count, _config.GroupsNumber, out studentsRemainder);
-            string[] tail = new string[students.Count];
-            students.CopyTo(tail);
-            // Split the initial group in a given number of groups
+            
             for (int i = 0; i < _config.GroupsNumber; i++)
             {
-                List<string> shuffledGroup = tail.Take(studentsPerGroupCount).ToList();
+                List<Student> shuffledGroup = students.Take(studentsPerGroupCount).ToList();
                 groups.Add(shuffledGroup);
-                tail = tail.Skip(studentsPerGroupCount).ToArray();
+                students = students.Skip(studentsPerGroupCount).ToList();
+                
             }
             // If there are students remaining, put each of them in a group until there is no more
             for (int i = 0; i < studentsRemainder; i++)
             {
-                List<string> groupWithOneRemainder = groups[i];
-                groupWithOneRemainder.Add(tail[i]);
+                groups[i].Add(students[i]);
+               
             }
             return groups;
         }
 
-        public List<string> GetStudents()
+        public List<Student> GetStudents()
         {
-            IEnumerable<String> students = _config.Students;
+            IEnumerable<Student> students = _config.Students;
             Random randomGenerator = new Random();
             int chosenStudentIndex;
             int studentsNumber = students.Count();
 
-            List<String> shuffledStudents = students.ToList();
+            List<Student> shuffledStudents = students.ToList();
             for (int i = 0; i < studentsNumber; i++)
             {
                 chosenStudentIndex = randomGenerator.Next(i, studentsNumber);
-                String chosenStudent = shuffledStudents[chosenStudentIndex];
+                var chosenStudent = shuffledStudents[chosenStudentIndex];
                 shuffledStudents[chosenStudentIndex] = shuffledStudents[i];
                 shuffledStudents.RemoveAt(i);
                 shuffledStudents.Insert(0, chosenStudent);

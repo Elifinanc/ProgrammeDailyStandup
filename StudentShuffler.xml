@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
-  <file>.\\StudentsName.txt</file>
   <groupNumber>2</groupNumber>
+  <StudentList>
+    <Student FirstName="Iurii" LastName="Antoniuk" />
+    <Student FirstName="Anatolie" LastName="Gavriluta" Quote="Be easy" />
+    <Student FirstName="Elisa" LastName="Romain" Quote="Like corona" />
+    <Student FirstName="Kevin" LastName="Sartori" Quote="Hey there!" />
+    <Student FirstName="Laurent" LastName="Wolf" Quote="Keep calm biatch" />
+    <Student FirstName="Laure" LastName="Chiarrutini" Quote="Be easy" />
+    <Student FirstName="Elif" LastName="Inanc" Quote="Be easy" />
+    <Student FirstName="Jean" LastName="Barthelemy" Quote="Be easy" />
+  </StudentList>
 </configuration>
