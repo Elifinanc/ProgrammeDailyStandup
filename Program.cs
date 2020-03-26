@@ -38,14 +38,19 @@ namespace Student_Shuffle
             if(options.Group)
             {
                 List<List<Student>> studentsGroups = studentShuffler.GetRandomizedGroups();
+                List<List<String>> studentsGroupsFirstNames = new List<List<string>>();
+                foreach (List<Student> studentsGroup in studentsGroups)
+                {
+                    var firstNameGroup = studentsGroup.Select(x => x.FirstName).ToList();
+                    studentsGroupsFirstNames.Add(firstNameGroup);
+                }
                 IO.DisplayGroups(studentsGroupsFirstNames);
             }
             else
             {
+                List<string> studentsListRandomizedFirstNames = studentsListRandomized.Select(x => x.FirstName).ToList();
                 IO.DisplayNames(studentsListRandomizedFirstNames);
             }
-        }
-
-       
+        }  
     }
 }
